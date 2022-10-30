@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from saharapp.views import index
 
 urlpatterns = [
+    path('saharapp/', index),
     path('admin/', admin.site.urls),
 ]
