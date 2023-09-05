@@ -129,5 +129,10 @@ dmypy.json
 .pyre/
 .idea/
 
-Other/
 other/
+/examples.py
+/text.txt
+/yyyyyyyyy.py
+/just/
+genealogical_tree/
+/genealogical_tree/
