@@ -7,7 +7,7 @@ current_date = str(date.today().strftime('%Y-%m-%d'))  # определяем т
 brand = input("Введите бренд для анализа: ")
 files = [i for i in os.listdir('.') if os.path.isfile(i)]  # список файлов в текущей папке
 
-with open ('tm_list.txt', 'r', encoding='utf-8') as lt:  # открытие файла-списка необходимых брендов
+with open('tm_list.txt', 'r', encoding='utf-8') as lt:  # открытие файла-списка необходимых брендов
     list_brands = [line.strip('\n') + '.xlsx' for line in lt]
 
 def pars_data_single():
