@@ -1,48 +1,59 @@
+from tkinter import Tk, ttk, Button, Label, END, Text, BOTH, Frame
 import pyperclip
-from tkinter import Tk, ttk, Text, END, Button
-from datetime import datetime as dt
 
-# list_tm = input("Вставьте список для кроссировки: ")
-# list_tm2 = set(list_tm.split(sep='\t'))
-# print(f"Введенный список для обработки {list_tm2}")
-test = ['85006300_AJUSA', 'HL6366_BGA', 'PI06-0057_FRECCIA']
-def mixlist(my_list):
-    for i in my_list:
-        for x in my_list:
+
+data = ('551125B_CORTECO', '640VE31280000_MAHLE', '701010_TRW ENGINE COMPONENT', 'PV1456_PATRON', 'R6275/SNT_FRECCIA', 'V004307_BGA')
+##def buff():
+##    ttt = pyperclip.paste()
+##    in_text = ttt.get()
+def insert_text_buff():
+    past = pyperclip.paste()
+    in_text.insert(0.0, past)
+
+def copy_text_buff():
+    cop = out_text.get(0.0, END)
+    pyperclip.copy(cop)
+
+def delete_text_in():
+    in_text.delete(0.0, END)
+
+def delete_text_out():
+    out_text.delete(0.0, END)
+
+def get_text_input():
+    in_text_content = in_text.get(0.0, END)
+    _list = in_text_content.split(sep='\n')
+    #out_text.insert(0.0, in_text_content)
+    #in_text.delete(0.0, END)
+
+    for i in _list:
+        for x in _list:
             if i != x:
-                z = f'{i}\t{x}'
-                print(z)
+                z = f'{i}\t{x}\n'
+                out_text.insert(0.0, z)
             else:
                 pass
 
-mixlist(test)
-# pyperclip.copy(data)
-print("Обработка завершена, данные скопированы в буфер обмена")
 
 root = Tk()
-root.title("Приложение на Tkinter")  # текст заголовка окна
-root.geometry("400x350+400+300")  # размеры +позиционирование на экране
-root.resizable(False, False)  # возможность растягивать размер окна (горизонт, вертикаль)
-root.minsize(200, 200)   # минимальные размеры: ширина - 200, высота - 150
-root.maxsize(400, 300)   # максимальные размеры: ширина - 400, высота - 300
-root.iconbitmap(default="Hopstarter.ico")  # иконка окна
-root.attributes("-fullscreen", False)  # установка полноэкранного режима
-root.attributes("-alpha", 0.99)  # прозрачность
-root.attributes("-toolwindow", False)  # отключение верхней панели окна (сворачивание и разворачивание)
+root.title('Crosses')
+root.geometry("500x550+400+130")  # ширина х высота + позиция х\у
+root.resizable(True, True)  # растягивание границ окна
+#root.iconbitmap(default="favicon.ico")
 
-lab = ttk.Label(root, text="Вставьте список товаров", font="Arial 12")
-lab.pack()
+in_text = Text(root, wrap='word', width=40, height=10)
+in_text.grid(row=0, column=0, columnspan=5)
 
-txt_input = Text(root, width=40, height=10, font="Arial 10", wrap='word')
 
-input_text = txt_input.get('1.0', END)
-def pasting():
-    txt_input.insert(0.0, test)
+btn1 = ttk.Button(root, text='Вставить', command=insert_text_buff).grid(row=1, column=1)
+btn2 = ttk.Button(root, text='Очистить', command=delete_text_in).grid(row=1, column=2)
+btn3 = ttk.Button(root, text='Обработать', command=get_text_input).grid(row=1, column=3)
 
-btn = Button(root)  # создаем кнопку из пакета ttk c тестом и подчеркиванием символа по индексу
-btn.config(text="Click", underline=1, command=pasting)
+out_text = Text(root, wrap='word', height=10)
+out_text.grid(row=2, column=0, columnspan=5)
 
-txt_input.pack()
-btn.pack()
+btn4 = ttk.Button(root, text='Скопировть', command=copy_text_buff).grid(row=3, column=1)
+btn5 = ttk.Button(root, text='Очистить', command=delete_text_out).grid(row=3, column=2)
+btn6 = ttk.Button(root, text='Сохранить').grid(row=3, column=3)
 
 root.mainloop()
