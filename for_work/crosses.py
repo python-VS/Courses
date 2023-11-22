@@ -1,11 +1,9 @@
 from tkinter import Tk, ttk, Button, Label, END, Text, BOTH, Frame
-import pyperclip
+import pyperclip, re
 
 
 data = ('551125B_CORTECO', '640VE31280000_MAHLE', '701010_TRW ENGINE COMPONENT', 'PV1456_PATRON', 'R6275/SNT_FRECCIA', 'V004307_BGA')
-##def buff():
-##    ttt = pyperclip.paste()
-##    in_text = ttt.get()
+
 def insert_text_buff():
     past = pyperclip.paste()
     in_text.insert(0.0, past)
@@ -22,26 +20,31 @@ def delete_text_out():
 
 def get_text_input():
     in_text_content = in_text.get(0.0, END)
-    _list = in_text_content.split(sep='\n')
-    #out_text.insert(0.0, in_text_content)
-    #in_text.delete(0.0, END)
+    list1 = set(in_text_content.split(sep='\n'))
+    list2 = []
 
-    for i in _list:
-        for x in _list:
-            if i != x:
+    for w in list1:
+        w = re.sub(r'\r', r'', w)
+        list2.append(w)
+
+    for i in list2:
+        for x in list2:
+            if i != x and i != '':
                 z = f'{i}\t{x}\n'
                 out_text.insert(0.0, z)
             else:
                 pass
-
+    print(in_text_content, type(in_text_content))
+    print(list1, type(list1))
+    print(list2, type(list2))
 
 root = Tk()
 root.title('Crosses')
-root.geometry("500x550+400+130")  # ширина х высота + позиция х\у
-root.resizable(True, True)  # растягивание границ окна
+root.geometry("700x850+400+130")  # ширина х высота + позиция х\у
+root.resizable(False, False)  # растягивание границ окна
 #root.iconbitmap(default="favicon.ico")
 
-in_text = Text(root, wrap='word', width=40, height=10)
+in_text = Text(root, wrap='word', width=80)
 in_text.grid(row=0, column=0, columnspan=5)
 
 
@@ -49,7 +52,7 @@ btn1 = ttk.Button(root, text='Вставить', command=insert_text_buff).grid(
 btn2 = ttk.Button(root, text='Очистить', command=delete_text_in).grid(row=1, column=2)
 btn3 = ttk.Button(root, text='Обработать', command=get_text_input).grid(row=1, column=3)
 
-out_text = Text(root, wrap='word', height=10)
+out_text = Text(root, wrap='word')
 out_text.grid(row=2, column=0, columnspan=5)
 
 btn4 = ttk.Button(root, text='Скопировть', command=copy_text_buff).grid(row=3, column=1)
