@@ -1,9 +1,7 @@
 from io import BytesIO
 from PIL import Image, ImageTk
 import requests
-import re
-from os.path import basename, splitext
-from tkinter import Tk, ttk, END, filedialog, PhotoImage, Canvas, messagebox
+from tkinter import Tk, ttk, filedialog, PhotoImage, messagebox
 
 
 def receiving_foto_info():
@@ -39,7 +37,6 @@ def save_file():
 
 def open_file():
     filepath_open = filedialog.askopenfilename(title="Выбор файла", filetypes=(('Все форматы', '*'), ('Текст', '*.txt')))
-    #file_name = basename(filepath_open)
     with open(filepath_open, 'r', encoding='utf-8') as lst:  # открытие файла-списка необходимых брендов
         global list_ref
         list_ref = [line.strip('\n') for line in lst]
@@ -55,19 +52,17 @@ def save_files():
             label2.configure(text='Ошибка времени ожидания')
         else:
             if response2.status_code != 200:
-                label2.configure(text=f'HTTP ошибка {response.status_code}')
+                label2.configure(text=f'HTTP ошибка {response2.status_code}')
         with open(file_path_gr + '/' + x +'.jpg', "wb") as file_:
-            print(file_path_gr + '/' + x +'.jpg')
             file_.write(response2.content)
     messagebox.showinfo(title='Информация', message='Скачивание завершено!')
 
-#---------------------------------------------------------------------------------------------------------#
+
 root = Tk()
 root.title('Download ORIS images')
-root.geometry("860x450+300+130")  # ширина х высота + позиция х\у
-root.resizable(False, True)  # растягивание границ окна
-root.iconbitmap(default="logo.ico")
-#---------------------------------------------------------------------------------------------------------#
+root.geometry("860x800+230+30")
+root.resizable(False, True)
+root.iconbitmap(default="D:\\PycharmProjects\\Courses\\for_work\\downOris_images\\logo.ico")
 
 label1 = ttk.Label(root, text='Введите артикул ORIS:')
 label1.pack()
@@ -77,13 +72,13 @@ btn1 = ttk.Button(root, text='Загрузить', command=receiving_foto_info)
 btn1.pack()
 btn2 = ttk.Button(root, text='Сохранить', command=save_file)
 btn2.pack()
-btn3 = ttk.Button(root, text=f'Загрузить\n список', command=open_file)
-btn3.pack()
-btn4 = ttk.Button(root, text=f'Выбрать\n место\n сохранения', command=save_files)
-btn4.pack()
-
-label2 = ttk.Label(root, borderwidth=2, width=100)
+image_oris = PhotoImage(file='D:\\PycharmProjects\\Courses\\for_work\\downOris_images\\orislogo.png')
+label2 = ttk.Label(root, borderwidth=2, width=100, image=image_oris)
 label2.pack()
 
-#---------------------------------------------------------------------------------------------------------#
+btn3 = ttk.Button(root, text=f'Загрузить список', command=open_file)
+btn3.pack(fill='x', padx=100)
+btn4 = ttk.Button(root, text=f'Выбрать место сохранения', command=save_files)
+btn4.pack(fill='x', padx=100)
+
 root.mainloop()
